@@ -1,13 +1,10 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../../FirebaseConfig';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import { db } from '../../FirebaseConfig';
-import { useState } from 'react';
 import logo from '../assets/Images/SM_logo.jpg';
 import { FaArrowRight } from "react-icons/fa";
-import { getDoc, doc } from "firebase/firestore";
-
 
 function Home() {
     const navigate = useNavigate();
@@ -17,12 +14,11 @@ function Home() {
     const [sessionId, setSessionId] = useState('');
 
     const handleCreateSession = async () => {
-        const docRef = await addDoc(collection(db, "sessions"),
-            {
-                date: new Date(),
-                venueName: venueName,
-                revenue: 0,
-            });
+        const docRef = await addDoc(collection(db, "sessions"), {
+            date: new Date(),
+            venueName: venueName,
+            revenue: 0,
+        });
         console.log("Document written with ID: ", docRef.id);
         navigate(`/SessionScreen`, { state: { sessionId: docRef.id } });
     }
@@ -32,42 +28,40 @@ function Home() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             navigate(`/SessionScreen`, { state: { sessionId: sessionId } });
-
         } else {
-            // doc.data() will be undefined in this case
             alert('No such document!');
         }
     }
 
-
-
     const handleLogout = () => {
-        // Perform logout logic here
         auth.signOut();
         console.log('User logged out');
-        // Redirect to login or another relevant page
     };
 
     return (
-        <div className="flex flex-col  py-20 w-[60%] max-w-[450px] mx-auto my-5 ">
-            <h1 className='text-2xl sm:text-4xl text-center'>Sunday Mourners Merch Manager</h1>
-            <img src={logo} className=' my-5' alt="SM logo" />
-            <div className='flex flex-col  gap-10'>
-                <div className=''>
-                    <button className='hover:text-pink-400 text-2xl' onClick={() => setShowAddSession(!showAddSession)}>Create Session</button>
-                    {showAddSession && <div className='flex  gap-5 py-2'>
-                        <input class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal text-black w-[300px] " placeholder="Session Name" onChange={(e) => setVenueName(e.target.value)} />
-                        <FaArrowRight className='text-2xl my-auto hover:text-pink-400 hover:cursor-pointer' onClick={handleCreateSession} />
-                    </div>}
+        <div className="flex flex-col py-4 px-2 mx-auto my-3 max-w-md sm:max-w-lg lg:max-w-xl"> {/* Adjusted margins and max-width for better mobile viewing */}
+            <h1 className='text-xl sm:text-2xl md:text-3xl text-center'>Sunday Mourners Merch Manager</h1> {/* Adjusted font sizes and added text centering for better readability on mobile */}
+            <img src={logo} className='my-4 w-full max-w-xs mx-auto' alt="SM logo" /> {/* Adjusted image sizing for better mobile fit */}
+            <div className='flex flex-col gap-6'>
+                <div>
+                    <button className='text-lg sm:text-3xl hover:text-pink-400' onClick={() => setShowAddSession(!showAddSession)}>Create Session</button>
+                    {showAddSession && (
+                        <div className='flex gap-4 py-2'>
+                            <input className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 appearance-none leading-normal text-black w-[60%]" placeholder="Session Name" onChange={(e) => setVenueName(e.target.value)} />
+                            <FaArrowRight className='text-xl my-auto hover:text-pink-400 hover:cursor-pointer' onClick={handleCreateSession} />
+                        </div>
+                    )}
                 </div>
-                <div className='f '>
-                    <button className='hover:text-pink-400 text-2xl' onClick={() => setShowResumeSession(!showResumeSession)}>Resume Session</button>
-                    {showResumeSession && <div className='flex  gap-5 py-2'>
-                        <input class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal text-black w-[300px] " placeholder="session id" onChange={(e) => setSessionId(e.target.value)} />
-                        <FaArrowRight className='text-2xl my-auto hover:text-pink-400 hover:cursor-pointer' onClick={() => handleResumeSession(sessionId)} />
-                    </div>}
+                <div>
+                    <button className='text-lg hover:text-pink-400' onClick={() => setShowResumeSession(!showResumeSession)}>Resume Session</button>
+                    {showResumeSession && (
+                        <div className='flex gap-4 py-2'>
+                            <input className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 appearance-none leading-normal text-black w-[60%]" placeholder="Session ID" onChange={(e) => setSessionId(e.target.value)} />
+                            <FaArrowRight className='text-xl my-auto hover:text-pink-400 hover:cursor-pointer' onClick={() => handleResumeSession(sessionId)} />
+                        </div>
+                    )}
                 </div>
-                <button className='hover:text-pink-400 text-2xl w-fit' onClick={handleLogout}>Log Out</button>
+                <button className='text-lg hover:text-pink-400' onClick={handleLogout}>Log Out</button>
             </div>
         </div>
     );

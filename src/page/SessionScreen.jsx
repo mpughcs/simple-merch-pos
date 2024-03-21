@@ -244,18 +244,18 @@ const SessionScreen = () => {
 
 
     return (
-        <div className='p-[50px] overflow-x-hidden'>
+        <div className='p-[20px] md:p-[40px] max-w-[85%] mx-auto overflow-x-hidden'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
             <div className='flex justify-around gap-4 py-5 flex-wrap'>
                 {products.map(product => (
                     // <div key={product.id} className='flex '>
-                    <div className='flex md:basis-[550px] basis-[450px]'>
-                        <img src={product.image} alt={product.name} className='md:w-[200px] w-[175px]  object-contain mx-10' />
-                        <div className='flex flex-col items-start self-start min-w-[95%]'>
+                    <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] '>
+                        <img src={product.image} alt={product.name} className='sm:w-[200px] w-[250px]  object-contain mx-10' />
+                        <div className='flex flex-col  mx-auto w-fit '>
                             <h2 className=''>{product.name}</h2>
                             <h2 className='text-2xl text-green-300'>${product.cost}</h2>
-                            <div className=''>
+                            <div className='md:text-xl '>
                                 {product.sizes ?
                                     <div>
                                         <p>Sizes</p> {(
