@@ -247,7 +247,7 @@ const SessionScreen = () => {
         <div className='p-2  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
-            <div className='flex justify-around gap-4 py-5 flex-wrap'>
+            <div className='flex justify-around gap-10 py-5 flex-wrap'>
                 {products.map(product => (
                     // <div key={product.id} className='flex '>
                     <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] flex-1 '>
