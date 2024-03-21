@@ -244,7 +244,7 @@ const SessionScreen = () => {
 
 
     return (
-        <div className='p-12 mb-[85px]  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
+        <div className='p-2 mb-[85px]  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
             <div className='flex justify-around gap-10 pt-5 flex-wrap'>
@@ -262,7 +262,7 @@ const SessionScreen = () => {
                                             Object.entries(localStock[product.id] || {}) // Use localStock for displaying stock levels
                                                 .sort((a, b) => sizeOrder.indexOf(a[0]) - sizeOrder.indexOf(b[0]))
                                                 .map(([size, stock]) => (
-                                                    <div className='flex gap-5 align-baseline items-center ' key={size}>
+                                                    <div className='flex gap-9 align-baseline items-center ' key={size}>
                                                         <button onClick={() => addToCart(product.id, size)}><FaPlus className="text-3xl sm:text-xl hover:text-pink-500" /></button>
                                                         <button onClick={() => removeFromCart(product.id, size)}
                                                             disabled={!cart[`${product.id}-${size}`] || stock < 0} // Disable if stock is 0
