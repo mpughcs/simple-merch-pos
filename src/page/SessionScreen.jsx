@@ -244,13 +244,13 @@ const SessionScreen = () => {
 
 
     return (
-        <div className='p-2  md:p-[40px] max-w-[85%] mx-auto overflow-x-hidden'>
+        <div className='p-2  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
             <div className='flex justify-around gap-4 py-5 flex-wrap'>
                 {products.map(product => (
                     // <div key={product.id} className='flex '>
-                    <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] '>
+                    <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] flex-1 '>
                         <img src={product.image} alt={product.name} className='sm:w-[200px] w-[250px]  object-contain mx-10' />
                         <div className='flex flex-col  mx-auto w-fit items-baseline '>
                             <h2 className='text-2xl'>{product.name} <span className='text-green-300'>${product.cost}</span></h2>
@@ -294,7 +294,7 @@ const SessionScreen = () => {
                     </div>
                 ))}
             </div>
-            <div className='flex items-end justify-between'>
+            <div className='flex mb-[30px] justify-between '>
                 <div>
                     <h2 className='text-green-400 text-xl pt-10 sm:text-3xl'>Total: ${calculateTotal()}</h2>
                     <button className="text-lg text-yellow-400 hover:text-white" onClick={confirmOrder}>Confirm Order</button>
