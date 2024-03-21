@@ -244,7 +244,7 @@ const SessionScreen = () => {
 
 
     return (
-        <div className='p-[20px] md:p-[40px] max-w-[85%] mx-auto overflow-x-hidden'>
+        <div className='p-2  md:p-[40px] max-w-[85%] mx-auto overflow-x-hidden'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
             <div className='flex justify-around gap-4 py-5 flex-wrap'>
@@ -252,9 +252,9 @@ const SessionScreen = () => {
                     // <div key={product.id} className='flex '>
                     <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] '>
                         <img src={product.image} alt={product.name} className='sm:w-[200px] w-[250px]  object-contain mx-10' />
-                        <div className='flex flex-col  mx-auto w-fit '>
-                            <h2 className=''>{product.name}</h2>
-                            <h2 className='text-2xl text-green-300'>${product.cost}</h2>
+                        <div className='flex flex-col  mx-auto w-fit items-baseline '>
+                            <h2 className='text-2xl'>{product.name} <span className='text-green-300'>${product.cost}</span></h2>
+                            {/* <h2 className='text-2xl text-green-300'>${product.cost}</h2> */}
                             <div className='md:text-xl '>
                                 {product.sizes ?
                                     <div>
@@ -263,26 +263,26 @@ const SessionScreen = () => {
                                                 .sort((a, b) => sizeOrder.indexOf(a[0]) - sizeOrder.indexOf(b[0]))
                                                 .map(([size, stock]) => (
                                                     <div className='flex gap-5 align-baseline items-center ' key={size}>
-                                                        <button onClick={() => addToCart(product.id, size)}><FaPlus /></button>
+                                                        <button onClick={() => addToCart(product.id, size)}><FaPlus className="text-3xl sm:text-xl hover:text-pink-500" /></button>
                                                         <button onClick={() => removeFromCart(product.id, size)}
                                                             disabled={!cart[`${product.id}-${size}`] || stock < 0} // Disable if stock is 0
                                                             className='disabled:opacity-50'>
-                                                            <FaMinus />
+                                                            <FaMinus className="text-3xl sm:text-xl hover:text-pink-500" />
                                                         </button>
-                                                        <p>{size} ({stock} available)</p>
+                                                        <p className='text-xl md:text-2xl'>{size} ({stock} available)</p>
                                                     </div>
                                                 ))
                                         )}
                                     </div> : (
                                         <div className='flex gap-4'>
                                             <button onClick={() => addToCart(product.id)}>
-                                                <FaPlus />
+                                                <FaPlus className='text-3xl sm:text-xl hover:text-pink-500' />
                                             </button>
                                             <button onClick={() => removeFromCart(product.id)}
                                                 disabled={!cart[product.id] || localStock[product.id].stock <= 0}
                                                 className='disabled:opacity-50'
                                             >
-                                                <FaMinus />
+                                                <FaMinus className='text-3xl sm:text-xl hover:text-pink-500' />
                                             </button>
                                             <p>({localStock[product.id].stock} available)</p>
                                         </div>
@@ -296,12 +296,12 @@ const SessionScreen = () => {
             </div>
             <div className='flex items-end justify-between'>
                 <div>
-                    <h2 className='text-green-400 text-3xl pt-10'>Total: ${calculateTotal()}</h2>
+                    <h2 className='text-green-400 text-xl pt-10 sm:text-3xl'>Total: ${calculateTotal()}</h2>
                     <button className="text-lg text-yellow-400 hover:text-white" onClick={confirmOrder}>Confirm Order</button>
                 </div>
                 <div className='text-right'>
-                    <h2 className='text-3xl'>Revenue: ${sessionRevenue}</h2>
-                    <button className='text-red-500' onClick={endSession}>End Session</button>
+                    <h2 className='text-green-400 text-xl pt-10 sm:text-3xl'>Revenue: ${sessionRevenue}</h2>
+                    <button className='text-lg text-red-500' onClick={endSession}>End Session</button>
                 </div>
             </div>
         </div >
