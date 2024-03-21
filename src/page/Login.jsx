@@ -30,15 +30,16 @@ const Login = () => {
         <>
             <main >
                 <section>
-                    <div>
+                    <div className='text-center flex flex-col gap-5'>
                         <h1 className='text-3xl'> Sunday Mourners Merchandise  </h1>
 
-                        <form>
-                            <div>
+                        <form className='flex flex-col gap-5'>
+                            <div className='flex justify-between w-[60%] mx-auto'>
                                 <label htmlFor="email-address">
                                     Email address
                                 </label>
                                 <input
+                                    className='w-[300px]'
                                     id="email-address"
                                     name="email"
                                     type="email"
@@ -48,11 +49,13 @@ const Login = () => {
                                 />
                             </div>
 
-                            <div>
+                            <div className='flex justify-between w-[60%] mx-auto'>
                                 <label htmlFor="password">
                                     Password
                                 </label>
                                 <input
+                                    className='w-[300px]'
+
                                     id="password"
                                     name="password"
                                     type="password"

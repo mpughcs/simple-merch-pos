@@ -17,7 +17,7 @@ const productRefs = {
 
 const sizeOrder = ['S', 'M', 'L', 'XL', '2XL'];
 
-const isDevelopmentMode = true; // Toggle this to false when deploying or for production use
+const isDevelopmentMode = false; // Toggle this to false when deploying or for production use
 const localProductData = [
     {
         "cost": 25,
@@ -77,6 +77,29 @@ const SessionScreen = () => {
 
 
 
+    console.log("Session ID:", sessionId);
+    useEffect(() => {
+        const fetchSessionRevenue = async (sessionId) => {
+            try {
+                const sessionDocRef = doc(db, "sessions", sessionId);
+                const docSnap = await getDoc(sessionDocRef);
+                if (docSnap.exists()) {
+                    console.log("Current session revenue fetched:", docSnap.data().revenue);
+                    setSessionRevenue(docSnap.data().revenue || 0);
+                } else {
+                    console.log("No such session!");
+                    setSessionRevenue(0); // Reset to 0 if no session found (optional based on your logic)
+                }
+            } catch (error) {
+                console.error("Error fetching session revenue:", error);
+                setSessionRevenue(0); // Handle error (optional based on your logic)
+            }
+        };
+
+        if (sessionId) {
+            fetchSessionRevenue(sessionId);
+        }
+    }, [sessionId]);
 
 
     useEffect(() => {
@@ -171,31 +194,51 @@ const SessionScreen = () => {
         return Object.values(cart).reduce((total, item) => total + (item.cost * item.quantity), 0);
     };
 
+
     const confirmOrder = async () => {
         console.log("Confirming order and updating stock in Firebase...");
         const batch = writeBatch(db);
 
-        // Your existing logic to update product stock in the batch
+        // Logic to update product stock using the batch
+        Object.entries(cart).forEach(([key, item]) => {
+            const product = products.find(p => p.id === item.name);
+            if (product.sizes) {
+                const newStock = product.sizes[item.size] - item.quantity;
+                batch.update(productRefs[item.name], {
+                    ["sizes." + item.size]: newStock // Directly access the size property for update
+                });
+            } else if (product.stock !== undefined) {
+                const newStock = product.stock - item.quantity;
+                batch.update(productRefs[item.name], { stock: newStock });
+            }
+        });
 
         await batch.commit();
         alert("Order confirmed!");
 
         const total = calculateTotal(); // Calculate the total for the current order
-        console.log('Total:', total);
 
-        await updateSession(total); // Pass the total directly to the update function
-        setCart({}); // Reset the cart after order confirmation
+        // Update session revenue directly without waiting for state update
+        await updateSession(sessionId, sessionRevenue + total);
+
+        // Optionally update the local state to reflect the change
+        // Note: This won't affect the immediate Firestore update but keeps the local state in sync for future actions
+        setSessionRevenue(prevRevenue => prevRevenue + total);
+
+        // Clear the cart after updating the session
+        setCart({});
     };
 
-    const updateSession = async (additionalRevenue) => {
-        const sessionDocRef = doc(db, "sessions", sessionId);
-        const sessionDoc = await getDoc(sessionDocRef);
-        const currentRevenue = sessionDoc.exists() ? sessionDoc.data().revenue || 0 : 0;
-        const updatedRevenue = currentRevenue + additionalRevenue;
+    const updateSession = async (sessionId, newRevenue) => {
+        try {
+            const sessionDocRef = doc(db, "sessions", sessionId);
+            await setDoc(sessionDocRef, { revenue: newRevenue }, { merge: true });
+            console.log('Session Revenue Updated:', newRevenue);
+        } catch (error) {
+            console.error("Error updating session revenue: ", error);
+        }
+    };
 
-        await setDoc(sessionDocRef, { revenue: updatedRevenue }, { merge: true });
-        console.log('Session Revenue Updated:', updatedRevenue);
-    }
 
 
 
