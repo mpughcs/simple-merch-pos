@@ -247,7 +247,7 @@ const SessionScreen = () => {
         <div className='p-2  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
-            <div className='flex justify-around gap-10 py-5 flex-wrap'>
+            <div className='flex justify-around gap-10 pt-5 flex-wrap'>
                 {products.map(product => (
                     // <div key={product.id} className='flex '>
                     <div className='flex items-center flex-col pb-4 sm:pb-2 sm:flex-row md:basis-[550px] basis-[550px] flex-1 '>
@@ -294,14 +294,14 @@ const SessionScreen = () => {
                     </div>
                 ))}
             </div>
-            <div className='flex mb-[30px] justify-between '>
+            <div className='flex pb-[40px] justify-between '>
                 <div>
                     <h2 className='text-green-400 text-xl pt-10 sm:text-3xl'>Total: ${calculateTotal()}</h2>
-                    <button className="text-lg text-yellow-400 hover:text-white" onClick={confirmOrder}>Confirm Order</button>
+                    <button className="text-lg text-yellow-400 hover:text-white sm:text-2xl" onClick={confirmOrder}>Confirm Order</button>
                 </div>
                 <div className='text-right'>
                     <h2 className='text-green-400 text-xl pt-10 sm:text-3xl'>Revenue: ${sessionRevenue}</h2>
-                    <button className='text-lg text-red-500' onClick={endSession}>End Session</button>
+                    <button className='text-lg sm:text-2xl text-red-500' onClick={endSession}>End Session</button>
                 </div>
             </div>
         </div >

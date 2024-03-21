@@ -53,7 +53,7 @@ function Home() {
                     )}
                 </div>
                 <div>
-                    <button className='text-lg hover:text-pink-400' onClick={() => setShowResumeSession(!showResumeSession)}>Resume Session</button>
+                    <button className='text-lg sm:text-3xl hover:text-pink-400' onClick={() => setShowResumeSession(!showResumeSession)}>Resume Session</button>
                     {showResumeSession && (
                         <div className='flex gap-4 py-2'>
                             <input className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 appearance-none leading-normal text-black w-[60%]" placeholder="Session ID" onChange={(e) => setSessionId(e.target.value)} />
