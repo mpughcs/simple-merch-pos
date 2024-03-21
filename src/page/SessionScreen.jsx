@@ -244,7 +244,7 @@ const SessionScreen = () => {
 
 
     return (
-        <div className='p-2  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
+        <div className='p-12 mb-[85px]  md:p-[50px]  max-w-[85%] mx-auto overflow-x-hidden pb-'>
             <h1 className='text-3xl'>Products</h1>
             <h1 className='text-xl'>SessionID: {sessionId}</h1>
             <div className='flex justify-around gap-10 pt-5 flex-wrap'>
